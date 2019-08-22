@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import ngeohash from 'ngeohash';
 
 declare var google;
 
@@ -14,6 +15,21 @@ export class HomePage implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.loadMap();
+
+    const hash = ngeohash.encode(-34.9290, 138.6010, 1);
+    const neighbors: Array<string> = ngeohash.neighbors(hash);
+    console.log(hash);
+    console.log(neighbors);
+
+    neighbors.forEach(neighbor => {
+      const location = ngeohash.decode(neighbor);
+      console.log(location);
+      const marker = new google.maps.Marker({
+        position: { lat: location.latitude, lng: location.longitude },
+        title: `${neighbor}`
+      });
+      marker.setMap(this.map);
+    });
   }
 
   loadMap() {
@@ -27,6 +43,5 @@ export class HomePage implements AfterViewInit {
     };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
   }
 }
