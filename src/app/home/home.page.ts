@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 declare var google;
 
@@ -7,12 +7,12 @@ declare var google;
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements AfterViewInit {
 
   @ViewChild('map', { static: true }) mapElement: ElementRef;
   map: any;
 
-  ionViewDidLoad() {
+  ngAfterViewInit(): void {
     this.loadMap();
   }
 
